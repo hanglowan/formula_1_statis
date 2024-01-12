@@ -1,0 +1,55 @@
+. circuit-btn {
+   position: absolute;
+   left: 2rem;
+   width:50;
+   padding-top:0.5rem;
+   padding-bottom:0.5rem;
+   padding-left:0.5rem;
+   padding-right:0.5rem;
+   height:15;
+   font-size:.5rem;
+   top:1rem;
+}
+.driver-dropdown {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(1 * var(--bs-gutter-y));
+    margin-right: calc(1 * var(--bs-gutter-x));
+    margin-left: calc(1 * var(--bs-gutter-x));
+}
+.div-header {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: .5rem;
+    margin-top: calc(4 * var(--bs-gutter-y));
+    margin-bottom: calc(4 * var(--bs-gutter-y));
+    margin-right: calc(1.5 * var(--bs-gutter-x));
+    margin-left: calc(1.5 * var(--bs-gutter-x));
+}
+.div-container {
+    margin-top: 1rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.div-margin {
+    margin-top: calc(2 * .5rem);
+    margin-right: calc(1.5 * 1.5rem);
+    margin-left: calc(1.5 * 1.5rem);
+}
+
+.div-title {
+    margin-top: calc(1 * 1rem);
+}
+
+.div-para {
+    margin-top: calc(1 * .5rem);
+    margin-bottom: calc(1 * .5rem);
+}
+
+.div-subcontainer {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}

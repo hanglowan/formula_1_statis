@@ -1,0 +1,25 @@
+race,circuitId,circuit,circuit_length,race_distance,laps
+Australian Grand Prix,1,Melbourne Grand Prix Circuit,5.303,307.574,58
+Bahrain Grand Prix,3,Bahrain International Circuit,5.412,308.238,57
+Chinese Grand Prix,17,Shanghai International Circuit,5.451,305.066,56
+Azerbaijan Grand Prix,73,Baku City Circuit,6.003,306.049,51
+Spanish Grand Prix,4,Circuit de Barcelona-Catalunya,4.655,307.104,66
+Monaco Grand Prix,6,Circuit de Monaco,3.337,260.286,78
+Canadian Grand Prix,7,Circuit Gilles Villeneuve,4.361,305.27,70
+Austrian Grand Prix,70,Red Bull Ring,4.318,306.452,71
+British Grand Prix,9,Silverstone Circuit,5.891,306.198,52
+Hungarian Grand Prix,11,Hungaroring,4.381,306.63,70
+Belgian Grand Prix,13,Circuit de Spa-Francorchamps,7.004,308.052,44
+Dutch Grand Prix,39,Zandvoort,4.259,306.648,72
+Italian Grand Prix,14,Autodromo Nazionale di Monza,5.793,306.72,53
+Singapore Grand Prix,15,Marina Bay Street Circuit,5.063,308.706,61
+Imola Grand Prix,21,Autodromo Internazionale Enzo e Dino Ferrari,4.909,309.949,63
+Japanese Grand Prix,22,Suzuka,5.807,307.471,53
+Mexican Grand Prix,32,Autodromo Hermanos Rodriguez,4.304,305.354,71
+United States Grand Prix,69,Circuit of the Americas,5.513,308.405,56
+Brazilian Grand Prix,18,Autodromo Jose Carlos Pace,4.309,305.879,71
+Saudi Arabia Grand Prix,77,Jeddah Street Circuit,6.175,308.75,50
+Abu Dhabi Grand Prix,24,Yas Marina Circuit,5.554,305.355,55
+Miami Grand Prix,79,Hard Rock Stadium Circuit,5.41,308.37,57
+Qatar Grand Prix,78,Lusail Circuit,5.419,308.826,57
+Las Vegas Grand Prix,80,Las Vegas Street Circuit,6.201,310.05,50

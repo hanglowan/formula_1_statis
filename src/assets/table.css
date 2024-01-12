@@ -1,0 +1,51 @@
+#driver_info .previous-next-container {
+    text-align: left;
+    padding: 5px 0px;
+}
+
+#nav_brand {
+    --bs-navbar-brand-hover-color: var(--bs-red);
+    --bs-navbar-brand-font-size: 1.2rem;
+}
+
+#navigation_bar .bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    --bs-navbar-color: rgba(255, 255, 255, 0.55);
+    --bs-navbar-hover-color: #fff;
+    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
+    --bs-navbar-active-color: #fff;
+    --bs-navbar-brand-color: #fff;
+}
+.nav-item{
+    position: relative;
+    display: block;
+    padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+    color: solid #1a1a1a;
+    text-decoration: none;
+    background-color: #1a1a1a;
+    border: var(--bs-list-group-border-width) solid #1a1a1a;
+}
+.list-group {
+    flex-direction:row;
+}
+
+.nav-dropdown{
+    font-size: .875rem;
+    text-transform: uppercase;
+    --bs-btn-color: #989898;
+    padding-top: 0.715rem;
+    padding-bottom: 0.715rem;
+
+    --bs-btn-padding-x: 1.5rem;
+    --bs-btn-padding-y: 0.75rem;
+
+    letter-spacing: 1px;
+
+    border: var(--bs-list-group-border-width) solid #1a1a1a;
+    position: relative;
+    display: block;
+}
