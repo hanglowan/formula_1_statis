@@ -4,7 +4,6 @@
 from driver.driver import Driver
 from ff1.session import Session
 
-
 from pathlib import Path
 import logging
 import math
@@ -17,11 +16,11 @@ from plotly.subplots import make_subplots
 from plotly.express.colors import sample_colorscale
 from sklearn.preprocessing import minmax_scale
 
-
 logger = logging.getLogger(Path(__file__).name)
 SESSION_CACHE = {
 
 }
+
 
 class Session_f1:
     def __init__(self, year=2023, circuit=1, stint='R'):
@@ -37,7 +36,7 @@ class Session_f1:
         try:
             logger.info("session name: %s", self.session.name)
         except AttributeError:
-            print("AttributeError: 'NoneType' object has no attribute 'name'")
+            logger.error("AttributeError: 'NoneType' object has no attribute 'name'")
 
         logger.info("f1: %s", self.driver.f1)
         logger.info("driver: %s", self.driver)
@@ -51,13 +50,13 @@ class Session_f1:
             self.session = Session(year, circuit)
             SESSION_CACHE[self.session_key] = self.session
             logger.info('BRAND NEW SESSION SET: %s', self.session_key)
+
     def set_driver(self, driver_abb: str):
         '''set current session driver'''
         self.driver_id = driver_abb
         self.driver = Driver(Driver.get_driver_id(self.driver_id))
         self.print_vars()
         logger.info("set_driver: %s, %s", self.driver_id, self.driver)
-
 
     def get_driver(self):
         logger.info("get_driver: %s", self.driver_id)
@@ -88,21 +87,21 @@ class Session_f1:
         max_y = max(points[1])
         min_y = min(points[1])
 
-        return max_x-min_x, max_y-min_y
+        return max_x - min_x, max_y - min_y
+
     def __rotate_90(self, points, center_x, center_y):
-        new_points = [[],[]]
+        new_points = [[], []]
         for index in range(len(points[0])):
             if points[0][index] is None:
                 continue
-            x, y = self.__rotate_point([center_x, center_y], [points[0][index], points[1][index]], np.pi/2)
+            x, y = self.__rotate_point([center_x, center_y], [points[0][index], points[1][index]], np.pi / 2)
             new_points[0].append(x)
             new_points[1].append(y)
 
         return new_points
 
     def __flip_v(self, points, center_x, center_y):
-        for index in range(10,len(points[0])):
-
+        for index in range(10, len(points[0])):
             x = points[0][index]
             points[0][index] = -1 * (x - center_x) + center_x
 
@@ -177,33 +176,23 @@ class Session_f1:
             'nGear': '',
             'Brake': "",
         }
-        #TODO verify measure
-        # if lap=='fastest':
-        #     logger.info("GETTING FASTEST LAP CIRCUIT FIG")
-        #     tel_data = self.session.laps.pick_driver(self.driver_id).pick_fastest().get_telemetry()
-        #     points = [tel_data['X'].tolist(), tel_data['Y'].tolist()]
-        #     # points = self.__rotate(points)
-        #     metric = tel_data[measure]
-        #     title = "Fastest Lap"
-        #     subtitle = measure
-        #     colorscale = 'hot'
         if lap in self.laps_participated():
             tel_data = self.session.get_tel(self.driver_id, [lap]).copy()
-            print(tel_data.head())
+            # print(tel_data.head())
             points = [tel_data['X'].tolist(), tel_data['Y'].tolist()]
             metric = tel_data[measure]
             title = f"Lap {lap}"
             subtitle = measure
             colorscale = 'hot'
-            #TODO if lapnum out of bounds, print error
+            # TODO if lapnum out of bounds, print error
         else:
             logger.error("Lap # Out of Bounds.")
             return
 
         center_x = (max(points[0]) + min(points[0])) / 2
         center_y = (max(points[1]) + min(points[1])) / 2
-
         dim_x, dim_y = self.__range(points)
+
         logger.info("Dimensions: %s, %s", dim_x, dim_y)
 
         brakepoints = self.__get_brakepoints(tel_data).copy()
@@ -223,31 +212,32 @@ class Session_f1:
             logger.info("Rotate Corners")
             corners = self.__rotate_90(corners, center_x, center_y)
 
-        width = screen_width*2/3
-
+        width = screen_width * 2 / 3
         dim_x, dim_y = self.__range(points)
-        dim_y = dim_y/dim_x * width
+        dim_y = dim_y / dim_x * width
         dim_x = width
 
-        size_metric = int(width*.0075)
-
+        size_metric = int(width * .0075)
         logger.info("SIZE METRIC: %s", size_metric)
-
         logger.info("Dimensions: %s, %s", dim_x, dim_y)
 
-        tel_data['Lap_Time'] = tel_data.Time.map(lambda x: f"{int(x.seconds / 3600)}:{int(x.seconds)}:{x.seconds % 3600}.{str(x.microseconds).zfill(6)}")
+        tel_data['Lap_Time'] = tel_data.Time.map(
+            lambda x: f"{int(x.seconds / 3600)}:{int(x.seconds)}:{x.seconds % 3600}.{str(x.microseconds).zfill(6)}")
 
         # create figure
+
         fig = px.scatter(tel_data, x=points[0], y=points[1],
                          color_continuous_scale=colorscale,
                          color=measure,
-                         size=[1]*len(points[0]),
+                         size=[1] * len(points[0]),
                          size_max=size_metric,
                          opacity=0.8,
                          # title=f"{title} by {subtitle}",
                          hover_data=['RPM', 'Speed', 'nGear', 'Throttle', 'Brake', 'DRS', 'Status', 'Lap_Time'],
-
                          )
+
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
 
         fig_brakes = go.Scatter(x=brakepoints[0], y=brakepoints[1],
                                 mode='markers',
@@ -277,20 +267,18 @@ class Session_f1:
                                  text=corner_text,
                                  hoverinfo='skip',
                                  textposition='middle center',
-                                 textfont=dict(color='black', size=size_metric*1.5),
+                                 textfont=dict(color='black', size=size_metric * 1.5),
                                  )
         if show_legend:
             fig.add_trace(fig_brakes)
             fig.add_trace(fig_max_speed)
             fig.add_trace(fig_corners)
 
-        # fig.update_xaxes(
-        #     linecolor='red'
-        # )
-
         fig.update_layout(
-            xaxis_visible=False, yaxis_visible=False,
+            # xaxis_visible=False, yaxis_visible=False,
             # xaxis_showline=True, yaxis_showline=True,
+            xaxis_title="X [m]",
+            yaxis_title="Y [m]",
             showlegend=show_legend,
             legend=dict(
                 orientation="h",
@@ -331,7 +319,8 @@ class Session_f1:
             ),
         )
 
-        fig.update_traces({'marker.opacity':1, 'marker.line.width':0})
+
+        fig.update_traces({'marker.opacity': 1, 'marker.line.width': 0})
 
         return fig
 
@@ -340,7 +329,7 @@ class Session_f1:
         logger.info("UPDATE FIG: %s", checklist)
 
     def get_basic_stats_display(self, lap_numbers, metrics, dim_width, x_axis=' time'):
-        if lap_numbers is None or len(lap_numbers)==0:
+        if lap_numbers is None or len(lap_numbers) == 0:
             fig = go.Figure()
             fig.update_layout(
                 height=750, width=dim_width * 4 / 7, title_text="Statistics", showlegend=False,
@@ -437,19 +426,19 @@ class Session_f1:
             if 'speed' in metrics:
                 fig.add_trace(fig_speed, row=i, col=1)
                 y_axis_labels.append('Speed [km/h]')
-                i+=1
+                i += 1
             if 'gear' in metrics:
                 fig.add_trace(fig_ngear, row=i, col=1)
                 y_axis_labels.append('Gear')
-                i+=1
+                i += 1
             if 'throttle' in metrics:
                 fig.add_trace(fig_throttle, row=i, col=1)
                 y_axis_labels.append('Throttle %')
-                i+=1
+                i += 1
             if 'rpm' in metrics:
                 fig.add_trace(fig_rpm, row=i, col=1)
                 y_axis_labels.append('RPM')
-                i+=1
+                i += 1
             if 'brakes' in metrics:
                 fig.add_trace(fig_brake, row=i, col=1)
                 y_axis_labels.append('Brakes')
@@ -461,12 +450,12 @@ class Session_f1:
             # if index == 0: index = ''
             # else:
             index += 1
-            print(f'yaxis{index}', label)
+            # print(f'yaxis{index}', label)
             fig['layout'][f'yaxis{index}']['title'] = label
 
         axes = ""
         if len(metrics) > 1:
-            axes=len(metrics)
+            axes = len(metrics)
         fig.update_traces(
             xaxis=f"x{axes}",
         )
@@ -484,7 +473,7 @@ class Session_f1:
         fig['layout']['xaxis'] = x_axis_config
 
         fig.update_layout(
-            height=750, width=dim_width*5/6, title_text="Statistics", showlegend=False,
+            height=750, width=dim_width * 5 / 6, title_text="Statistics", showlegend=False,
             hovermode='x unified',
             hoverlabel=dict(
                 bgcolor="rgba(25,25,25,0.9)",
@@ -504,6 +493,5 @@ class Session_f1:
         return fig
 
 # if __name__=="__main__":
-    # race = initialize(2023, 'Canada', 'R')
-    # set_driver("VER")
-
+# race = initialize(2023, 'Canada', 'R')
+# set_driver("VER")

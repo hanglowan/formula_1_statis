@@ -21,7 +21,7 @@ layout = html.Div([
         html.Div([
             html.Div([
                 html.Div([
-                    html.H3("Driver Data")
+                    html.H1("Home")
                 ], className='col-lg-12'),
                 html.Div([
                     html.Div([
