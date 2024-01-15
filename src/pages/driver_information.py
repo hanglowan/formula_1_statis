@@ -128,7 +128,7 @@ def layout(driver_id: str):
                             id='show-legend',
                             n_clicks=0,
                             style={'position': 'absolute',
-                                   'left': '1.5rem',
+                                   'left': '2rem',
                                    'width': '4rem',
                                    'line-height': '0.75rem',
                                    'padding-top': '0.25rem',

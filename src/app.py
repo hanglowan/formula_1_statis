@@ -19,13 +19,14 @@ def driver_ids():
     drivers = fastf1._DRIVER_TEAM_MAPPING
     children = []
     for numid in drivers:
-        children.append(
-            dbc.DropdownMenuItem(str(drivers[numid]['FirstName'] + " " + drivers[numid]['LastName']),
-                                 href=f"{link[:-4]}{drivers[numid]['Abbreviation']}",
-                                 # external_link=True,
-                                 # className='dropdown-item'
-                                 )
-        )
+        if drivers[numid]['Abbreviation'] in ['VER', 'BOT', 'SAI', 'LEC', 'GAS', 'VET', 'HAM']:
+            children.append(
+                dbc.DropdownMenuItem(str(drivers[numid]['FirstName'] + " " + drivers[numid]['LastName']),
+                                     href=f"{link[:-4]}{drivers[numid]['Abbreviation']}",
+                                     # external_link=True,
+                                     # className='dropdown-item'
+                                     )
+            )
 
     return children
 

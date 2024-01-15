@@ -136,8 +136,8 @@ class Formula_1:
         df = self.races[(self.races['raceId'].isin(race_ids)) & (self.races.year == year)]
         sorted_df = df.sort_values('date', ascending=False)
 
-        circuit_names = list(sorted_df['name'].unique())
-        circuit_ids = list(sorted_df['circuitId'].unique())
+        circuit_names = list(sorted_df['name'])
+        circuit_ids = list(sorted_df['circuitId'])
 
         return circuit_names, circuit_ids
 

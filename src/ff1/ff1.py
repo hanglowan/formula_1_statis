@@ -157,8 +157,13 @@ class Session_f1:
         return max_speed_points
 
     def __get_circuit_corners(self):
-        corner_info = self.session.get_circuit_info('corners')
-        corners = [corner_info.X, corner_info.Y]
+        try:
+            corner_info = self.session.get_circuit_info('corners')
+            corners = [corner_info.X, corner_info.Y]
+        except AttributeError:
+            logger.error('no circuit data')
+            corner_info.Number = []
+            corners = [[],[]]
         return corners, corner_info.Number
 
     def fastest_lap_num(self):
@@ -177,7 +182,11 @@ class Session_f1:
             'Brake': "",
         }
         if lap in self.laps_participated():
-            tel_data = self.session.get_tel(self.driver_id, [lap]).copy()
+            try:
+                tel_data = self.session.get_tel(self.driver_id, [lap]).copy()
+            except IndexError:
+                logger.error('no tel data for %s %s', self.driver_id, lap)
+                return
             # print(tel_data.head())
             points = [tel_data['X'].tolist(), tel_data['Y'].tolist()]
             metric = tel_data[measure]
@@ -236,8 +245,8 @@ class Session_f1:
                          hover_data=['RPM', 'Speed', 'nGear', 'Throttle', 'Brake', 'DRS', 'Status', 'Lap_Time'],
                          )
 
-        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
-        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
+        # fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
+        # fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
 
         fig_brakes = go.Scatter(x=brakepoints[0], y=brakepoints[1],
                                 mode='markers',
@@ -275,10 +284,10 @@ class Session_f1:
             fig.add_trace(fig_corners)
 
         fig.update_layout(
-            # xaxis_visible=False, yaxis_visible=False,
+            xaxis_visible=False, yaxis_visible=False,
             # xaxis_showline=True, yaxis_showline=True,
-            xaxis_title="X [m]",
-            yaxis_title="Y [m]",
+            # xaxis_title="X [m]",
+            # yaxis_title="Y [m]",
             showlegend=show_legend,
             legend=dict(
                 orientation="h",
@@ -318,7 +327,6 @@ class Session_f1:
                 # dtick=10
             ),
         )
-
 
         fig.update_traces({'marker.opacity': 1, 'marker.line.width': 0})
 
