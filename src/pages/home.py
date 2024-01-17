@@ -29,23 +29,21 @@ layout = \
 
         html.Div(
             [
-                html.H2(f"{year} Standings"),
+                html.H3(
+                    f"{year} Standings",
+                    className='div-container'
+                ),
                 html.Hr()
             ],
             className='div-container'
         ),
-
         html.Div(
             id='driver-standings',
             className='table table-hover table-active',# div-container div-subcontainer',
             style={
-                # 'margin-left':'5rem',
-                # 'margin-right':'5rem'
                 'padding': '0px 100px 0px 100px',
-
             }
         ),
-
         ]
     )
 
@@ -63,7 +61,6 @@ def get_driver_standings(vars):
             html.Th('Code', scope='col'),
             html.Th('Wins', scope='col'),
         ],
-        # className='div-container'
         )
     )
 
@@ -84,20 +81,24 @@ def get_driver_standings(vars):
 
         link = dash.page_registry['pages.driver_information']['relative_path']
 
+        if code in ['VER', 'BOT', 'SAI', 'LEC', 'GAS', 'VET', 'HAM']:
+            name = html.A(
+                        f"{forename} {surname}",
+                        href=f"{link[:-4]}{code}"
+                    )
+        else:
+            name = f"{forename} {surname}"
         col_body.append(
             html.Tr([
                 html.Th(points, scope="row"),
                 html.Td(
-                    html.A(
-                        f"{forename} {surname}",
-                        href=f"{link[:-4]}{code}"
-                    )
+                    name
                 ),
                 html.Td(f"{code}"),
                 html.Td(f"{wins}"),
             ],
-                className="table-secondary"# div-container"
+                className="table-secondary"
             ),
         )
 
-    return html.Table([col_titles, html.Tbody(col_body)], className="table table-hover")# div-container")
+    return html.Table([col_titles, html.Tbody(col_body)], className="table table-hover")

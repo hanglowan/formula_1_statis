@@ -81,9 +81,12 @@ def layout(driver_id: str):
                     }
                 ),
 
-                html.Hr(),
+                html.Hr(className='div-container'),
 
-                html.Div(id='fastest-lap'),
+                html.Div(
+                    id='fastest-lap',
+                    className='div-container'
+                ),
 
                 html.Hr(className='div-container'),
 
@@ -156,14 +159,19 @@ def layout(driver_id: str):
                     html.Div(
                         id='driver-image'
                     ),
+
                     html.Div([
                         html.Span(
                             f"#{driver_info['DriverNumber']}",
-                            className='h3'
+                            className='h1'
                         ),
                     ],
-                        className='div-para'
+                        style={
+                            'margin-top' : '1rem',
+                            'margin-bottom': '1rem',
+                        }
                     ),
+
                     html.Span(
                         f"{driver_info['FirstName']} {driver_info['LastName']} ",
                         className='h4',
@@ -336,11 +344,14 @@ def get_fastest_lap(vars):
     season = int(vars[0])
     circuit_id = int(vars[1])
 
-    session.session.
+    lap_num = session.fastest_lap_num()
+    lap_time = session.fastest_lap_time(lap_num)
 
     div = [
-        html.H6(f"Fastest Lap: Lap {}")
+        html.H6(f"Fastest Lap: Lap {lap_num} | {lap_time}")
     ]
+
+    return div
 
 @callback(
     Output('basic-stats-display', 'figure'),

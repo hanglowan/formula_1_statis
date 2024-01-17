@@ -172,6 +172,14 @@ class Session_f1:
         tel_data = tel_data.sort_values(by='Seconds', ascending=True)
         return int(tel_data.LapNumber.iloc[0])
 
+    def fastest_lap_time(self, lapnum):
+        laps = self.session.get_laps(self.driver_id)
+        laptime = str(laps[laps.LapNumber == lapnum].LapTime.iloc[0])
+
+        return laptime[11:]
+
+        # return f"{laptime.hours}:{laptime.seconds/60}:{laptime.seconds%60}.{laptime.microseconds}"
+
     def get_circuit_fig(self, screen_height, screen_width, show_legend, measure, lap):
         logger.info("get_circuit_fig: %s, %s, %s", show_legend, measure, lap)
         units = {
@@ -381,16 +389,20 @@ class Session_f1:
             distance_template = '<br>%{x:d} m<br>'
 
             x_axis = x_axis.lower()
+            print(x_axis)
             if x_axis == ' time':
                 x_data = lap_tel['time']
                 x_template = time_template
+                x_axis_label = 'Time'
             elif x_axis == ' distance':
                 x_data = lap_tel["Distance"]
                 x_template = distance_template
+                x_axis_label = f"Distance [m]"
             else:
                 logger.error("NO VALID X_AXIS")
                 x_data = lap_tel['time']
                 x_template = time_template
+                x_axis_label = 'Time'
 
             fig_speed = go.Scatter(x=x_data, y=lap_tel.Speed,
                                    mode='lines',
@@ -432,33 +444,33 @@ class Session_f1:
             i = 1
             y_axis_labels = []
             if 'speed' in metrics:
+                logger.info(f"lap %s, speed", lap_n)
                 fig.add_trace(fig_speed, row=i, col=1)
                 y_axis_labels.append('Speed [km/h]')
                 i += 1
             if 'gear' in metrics:
+                logger.info(f"lap %s, gear", lap_n)
                 fig.add_trace(fig_ngear, row=i, col=1)
                 y_axis_labels.append('Gear')
                 i += 1
             if 'throttle' in metrics:
+                logger.info(f"lap %s, throttle", lap_n)
                 fig.add_trace(fig_throttle, row=i, col=1)
                 y_axis_labels.append('Throttle %')
                 i += 1
             if 'rpm' in metrics:
+                logger.info(f"lap %s, rpm", lap_n)
                 fig.add_trace(fig_rpm, row=i, col=1)
                 y_axis_labels.append('RPM')
                 i += 1
             if 'brakes' in metrics:
+                logger.info(f"lap %s, brakes", lap_n)
                 fig.add_trace(fig_brake, row=i, col=1)
                 y_axis_labels.append('Brakes')
 
-        fig['layout']['xaxis']['title'] = f'{x_axis}'
-
         for index in range(len(y_axis_labels)):
             label = y_axis_labels[index]
-            # if index == 0: index = ''
-            # else:
             index += 1
-            # print(f'yaxis{index}', label)
             fig['layout'][f'yaxis{index}']['title'] = label
 
         axes = ""
@@ -491,7 +503,8 @@ class Session_f1:
             plot_bgcolor='#EAEAEA',
         )
         fig.update_xaxes(
-            spikecolor='#FF4D4D'
+            spikecolor='#FF4D4D',
+            title=x_axis_label
         )
 
         logger.info("RETURNING STATS FIG")

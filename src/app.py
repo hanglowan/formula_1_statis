@@ -37,10 +37,15 @@ navigation = dbc.NavbarSimple([
         href=dash.page_registry['pages.home']['relative_path']),
         className='nav-dropdown',
     ),
-    dbc.NavItem(dbc.DropdownMenu(
-        children=driver_ids(),
-        label='Drivers',
-        className='nav-dropdown'),
+    dbc.NavItem(
+        dbc.DropdownMenu(
+            children=driver_ids(),
+            label='Drivers',
+            className='nav-dropdown',
+            style={
+                "color" : "#989898"
+            }
+        ),
     )
 ],
     brand='F1 Statistics',
