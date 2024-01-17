@@ -366,7 +366,7 @@ class Session_f1:
                             )
 
         for index, lap_n in enumerate(lap_numbers):
-            lap_tel = self.session.get_tel(self.driver_id, [lap_n])
+            lap_tel = self.session.get_tel(self.driver_id, [lap_n]).copy()
             # display(lap_tel.head())
             date = lap_tel.Date.iloc[0]
 

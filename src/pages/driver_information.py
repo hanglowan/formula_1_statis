@@ -81,6 +81,10 @@ def layout(driver_id: str):
                     }
                 ),
 
+                html.Hr(),
+
+                html.Div(id='fastest-lap'),
+
                 html.Hr(className='div-container'),
 
                 html.Div([
@@ -323,6 +327,20 @@ clientside_callback(
     Input('url', 'href')
 )
 
+@callback(
+    Output('fastest-lap', 'children'),
+    Input('circuit-variables', 'children')
+)
+def get_fastest_lap(vars):
+    vars = vars.split("-")
+    season = int(vars[0])
+    circuit_id = int(vars[1])
+
+    session.session.
+
+    div = [
+        html.H6(f"Fastest Lap: Lap {}")
+    ]
 
 @callback(
     Output('basic-stats-display', 'figure'),

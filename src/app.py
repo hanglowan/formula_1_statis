@@ -53,7 +53,9 @@ navigation = dbc.NavbarSimple([
 app.layout = html.Div([
     html.Div([
         navigation,
-    ], id="navigation_bar"),
+    ],
+        id="navigation_bar",
+    ),
     html.Div([
         dash.page_container,
     ])

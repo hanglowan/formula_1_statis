@@ -13,6 +13,14 @@ class Formula_1:
 
         self.drivers = Drivers()
 
+        relative_path = "../../f1_data/drivers.csv"
+        full_path = os.path.join(absolute_path, relative_path)
+        self.driver_info = pd.read_csv(full_path)
+
+        relative_path = "../../f1_data/driver_standings.csv"
+        full_path = os.path.join(absolute_path, relative_path)
+        self.driver_standings = pd.read_csv(full_path)
+
         relative_path = "../../f1_data/races.csv"
         full_path = os.path.join(absolute_path, relative_path)
         self.races = pd.read_csv(full_path)
@@ -197,6 +205,29 @@ class Formula_1:
             for col in df.columns:
                 s.append(row[col])
             logger.info("display: %s", s)
+
+    def get_results(self, year):
+        race_ids = self.races[self.races.year == year].raceId.tolist()
+        race_ids = [race_ids[-1]]
+        r23 = self.driver_standings[self.driver_standings.raceId.isin(race_ids)]
+        driver_list = r23.driverId.unique().tolist()
+
+        final_standings = []
+
+        for did in driver_list:
+            final_standings.append(r23[r23.driverId == did])
+
+        final_standings = pd.concat(final_standings)
+
+        final_standings = final_standings.sort_values(by='points', ascending=False)
+
+        final_standings = pd.merge(final_standings, self.driver_info, on='driverId', how='inner')
+
+        cols = ['position', 'points', 'raceId', 'wins', 'number', 'driverId', 'driverRef', 'code', 'forename',
+                'surname', 'url']
+
+        return final_standings.loc[:, cols].copy()
+
 
 
 if __name__ == '__main__':
