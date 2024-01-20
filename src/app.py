@@ -14,6 +14,8 @@ app = Dash(__name__, use_pages=True,
            assets_folder=str(Path(Path(__file__).parent, 'assets')),
            external_stylesheets=[dbc.themes.LUX])
 
+server = app.server
+
 def driver_ids():
     link = dash.page_registry['pages.driver_information']['relative_path']
     drivers = fastf1._DRIVER_TEAM_MAPPING
