@@ -48,6 +48,7 @@ class Session_f1:
 
         if self.session is None:
             self.session = Session(year, circuit)
+            self.session.load_session()
             SESSION_CACHE[self.session_key] = self.session
             logger.info('BRAND NEW SESSION SET: %s', self.session_key)
 
@@ -77,8 +78,8 @@ class Session_f1:
         ox, oy = origin
         px, py = point
 
-        qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
-        qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+        qx = float(ox) + math.cos(angle) * (float(px) - float(ox)) - math.sin(angle) * (float(py) - float(oy))
+        qy = float(oy) + math.sin(angle) * (float(px) - float(ox)) + math.cos(angle) * (float(py) - float(oy))
         return qx, qy
 
     def __range(self, points):
@@ -111,14 +112,15 @@ class Session_f1:
         return points
 
     def __get_brakepoints(self, tel_data):
+        # print(tel_data)
         x_brakes = []
         y_brakes = []
 
         prev_is_none = False
 
-        brake = 12
-        x = 18
-        y = 19
+        brake = 10
+        x = 16
+        y = 17
 
         for row in tel_data.itertuples():
             brake_status = row[brake]
@@ -143,9 +145,9 @@ class Session_f1:
         x_co = []
         y_co = []
 
-        x = 18
-        y = 19
-        speed = 9
+        x = 16
+        y = 17
+        speed = 7
 
         for row in tel_data.itertuples():
             if max_speed == row[speed]:
@@ -250,7 +252,7 @@ class Session_f1:
                          size_max=size_metric,
                          opacity=0.8,
                          # title=f"{title} by {subtitle}",
-                         hover_data=['RPM', 'Speed', 'nGear', 'Throttle', 'Brake', 'DRS', 'Status', 'Lap_Time'],
+                         hover_data=['RPM', 'Speed', 'nGear', 'Throttle', 'Brake', 'DRS', 'Status', 'Time'],
                          )
 
         # fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgb(225,225,225)')
@@ -389,7 +391,7 @@ class Session_f1:
             distance_template = '<br>%{x:d} m<br>'
 
             x_axis = x_axis.lower()
-            print(x_axis)
+            logger.info("xaxis: %s", x_axis)
             if x_axis == ' time':
                 x_data = lap_tel['time']
                 x_template = time_template

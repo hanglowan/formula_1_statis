@@ -508,8 +508,7 @@ def get_results_summary_title(vars, driver_id):
     season = int(vars[0])
     circuit_id = int(vars[1])
 
-    results = session.session.result_data
-    results = results[results.Abbreviation == driver_id]
+    results = session.session.get_results(driver_id)
 
     x = results.Time.iloc[0]
     time_str = 'NaN'
@@ -658,8 +657,7 @@ def get_driver_basic_info(driver_id):
     Input('driver-id-start', 'children')
 )
 def get_constructor_info(driver_id):
-    results = session.session.result_data
-    driver_info = results[results['Abbreviation'] == driver_id]
+    driver_info = session.session.get_results(driver_id)
 
     div = [
         html.Span(
@@ -676,8 +674,7 @@ def get_constructor_info(driver_id):
     Input('driver-id-start', 'children')
 )
 def get_last_race_info(driver_id):
-    results = session.session.result_data
-    driver_info = results[results['Abbreviation'] == driver_id]
+    driver_info = session.session.get_results(driver_id)
 
     div = [
         html.H6(

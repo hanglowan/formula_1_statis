@@ -1,8 +1,0 @@
-DriverNumber,BroadcastName,Abbreviation,DriverId,TeamName,TeamColor,TeamId,FirstName,LastName,FullName,HeadshotUrl,CountryCode,Position,ClassifiedPosition,GridPosition,Q1,Q2,Q3,Time,Status,Points
-33,M VERSTAPPEN,VER,max_verstappen,Red Bull Racing,1e41ff,red_bull,Max,Verstappen,Max Verstappen,,,4.0,4,5.0,,,,0 days 00:00:06.408000,Finished,12.0
-77,V BOTTAS,BOT,bottas,Mercedes,00d2be,mercedes,Valtteri,Bottas,Valtteri Bottas,,,2.0,2,4.0,,,,0 days 00:00:02.980000,Finished,18.0
-55,C SAINZ,SAI,sainz,McLaren,ff8700,mclaren,Carlos,Sainz,Carlos Sainz,,,19.0,R,7.0,,,,,Collision damage,0.0
-16,C LECLERC,LEC,leclerc,Ferrari,dc0000,ferrari,Charles,Leclerc,Charles Leclerc,,,3.0,3,1.0,,,,0 days 00:00:06.131000,Finished,16.0
-10,P GASLY,GAS,gasly,Red Bull Racing,1e41ff,red_bull,Pierre,Gasly,Pierre Gasly,,,8.0,8,13.0,,,,0 days 00:00:58.094000,Finished,4.0
-5,S VETTEL,VET,vettel,Ferrari,dc0000,ferrari,Sebastian,Vettel,Sebastian Vettel,,,5.0,5,2.0,,,,0 days 00:00:36.068000,Finished,10.0
-44,L HAMILTON,HAM,hamilton,Mercedes,00d2be,mercedes,Lewis,Hamilton,Lewis Hamilton,,,1.0,1,3.0,,,,0 days 01:34:21.295000,Finished,25.0

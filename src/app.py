@@ -16,6 +16,7 @@ app = Dash(__name__, use_pages=True,
 
 server = app.server
 
+
 def driver_ids():
     link = dash.page_registry['pages.driver_information']['relative_path']
     drivers = fastf1._DRIVER_TEAM_MAPPING
