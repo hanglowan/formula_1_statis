@@ -49,7 +49,7 @@ class Session_f1:
         if self.session is None:
             self.session = Session(year, circuit)
             self.session.load_session()
-            SESSION_CACHE[self.session_key] = self.session
+            # SESSION_CACHE[self.session_key] = self.session
             logger.info('BRAND NEW SESSION SET: %s', self.session_key)
 
     def set_driver(self, driver_abb: str):
